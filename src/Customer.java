@@ -3,7 +3,7 @@ import java.util.*;
 
 class Customer {
     private String name;
-    private Vector rentals = new Vector();
+    private List<Rental> rentals = new LinkedList<>();
 
     public Customer(String newname) {
         name = newname;
@@ -12,7 +12,7 @@ class Customer {
     ;
 
     public void addRental(Rental arg) {
-        rentals.addElement(arg);
+        rentals.add(arg);
     }
 
     ;
@@ -26,16 +26,14 @@ class Customer {
     public String statement() {
         double totalCharge = 0;
         int frequentRenterPoints = 0;
-        Enumeration enum_rentals = rentals.elements();
         String result = "Rental Record for " + this.getName() + "\n";
         result += "\t" + "Title" + "\t" + "\t" + "Days" + "\t" + "Amount" + "\n";
 
-        while (enum_rentals.hasMoreElements()) {
-            Rental each = (Rental) enum_rentals.nextElement();
-            frequentRenterPoints += each.getFrequentRenterPoints();
+        for (Rental rental: rentals) {
+            frequentRenterPoints += rental.getFrequentRenterPoints();
             //show figures for this rental
-            result += "\t" + each.getMovie().getTitle() + "\t" + "\t" + each.getDaysRented() + "\t" + String.valueOf(each.getCharge()) + "\n";
-            totalCharge += each.getCharge();
+            result += "\t" + rental.getMovie().getTitle() + "\t" + "\t" + rental.getDaysRented() + "\t" + String.valueOf(rental.getCharge()) + "\n";
+            totalCharge += rental.getCharge();
         }
         //add footer lines
         result += "Amount owed is " + String.valueOf(totalCharge) + "\n";
